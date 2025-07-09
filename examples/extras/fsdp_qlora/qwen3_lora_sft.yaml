@@ -1,0 +1,51 @@
+### model
+model_name_or_path: /volume/Qwen3-30B-A3B-abliterated  # 模型路径
+quantization_bit: 4   # 使用4位量化
+trust_remote_code: false  # 是否信任远程代码
+
+### method
+stage: sft  # 训练阶段为 SFT (Supervised Fine-Tuning)
+do_train: true  # 执行训练
+finetuning_type: lora  # 使用 LoRA 微调方法
+lora_rank: 4  # LoRA 的秩为 4
+lora_target: all  # 对所有可训练层应用 LoRA
+
+### dataset
+dataset: PSQO_100k  # 数据集名称，数据集名需要在 LLaMA-Factory/data/ 下有对应的 yaml 文件，并且需要在LLaMA-Factory/data/dataset_info.json注册名称
+template: qwen3  # 使用 Qwen3 的模板格式
+cutoff_len: 6000  # 最大序列长度
+# max_samples: 200  # 最大样本数量
+overwrite_cache: true  # 覆盖缓存
+preprocessing_num_workers: 8  # 数据预处理的工作进程数
+
+### output
+output_dir: saves/Qwen3-30B-A3B_abliterated/lora/PSQO_100k_e5_0707  # 输出目录
+logging_steps: 10  # 每10步记录一次日志
+save_steps: 200  # 每500步保存一次模型
+plot_loss: true  # 绘制损失曲线
+overwrite_output_dir: true  # 覆盖输出目录
+
+### train
+per_device_train_batch_size: 1  # 每个设备的训练批次大小
+gradient_accumulation_steps: 8  # 梯度累积步数
+learning_rate: 2.0e-4  # 学习率
+num_train_epochs: 5.0  # 训练轮数
+lr_scheduler_type: cosine  # 学习率调度器类型为余弦退火
+warmup_ratio: 0.05  # 预热比例为10%
+bf16: true  # 使用 BF16 精度训练
+ddp_timeout: 180000000  # DDP超时时间
+# flash_attn: "auto" # 使用 Flash Attention 加速训练
+### eval
+# val_size: 0.1  # 验证集比例
+# per_device_eval_batch_size: 1  # 每个设备的评估批次大小
+# eval_strategy: steps  # 评估策略
+# eval_steps: 500  # 评估步数
+
+# 这个配置使用了 FSDP (Fully Sharded Data Parallel) + QLoRA (Quantized LoRA) 的训练方法，针对 Qwen3-30B-A3B 模型进行4位量化微调。配置文件主要关注了以下几个方面：
+
+# 使用4位量化减少显存占用
+# 应用 LoRA 技术进行高效微调
+# 使用梯度累积来处理较大的批次
+# 采用余弦学习率调度和 BF16 混合精度训练
+# 配置了完整的训练输出和记录系统
+# 这种配置适合在有限显存条件下对大型模型进行高效微调。

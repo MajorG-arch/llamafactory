@@ -1,0 +1,4 @@
+model_name_or_path: /volume/ira/docker_volume/result_models/qwen3_30b_PSQO_10k_9b9b2b80_e5_040822
+template: qwen3
+infer_backend: sglang  # choices: [huggingface, vllm, sglang]
+trust_remote_code: true

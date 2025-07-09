@@ -1,0 +1,13 @@
+### Note: DO NOT use quantized model or quantization_bit when merging lora adapters
+
+### model
+model_name_or_path: /volume/Qwen3-30B-A3B-abliterated
+adapter_name_or_path: saves/Qwen3-30B-A3B_abliterated/lora/PSQO_10k_9b9b2b80_e5_060917
+template: qwen3
+trust_remote_code: true
+
+### export
+export_dir: output/qwen3_30b_PSQO_10k_9b9b2b80_e5_060917
+export_size: 5
+export_device: cpu  # choices: [cpu, auto]
+export_legacy_format: false
